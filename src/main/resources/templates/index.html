@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" 
+      layout:decorator="template"
+      >
+    <head>
+        <title>Patients</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+       <div layout:fragment="PageContent" >
+        <div class="container mt-5" >
+            <div class="crad" > 
+                
+                <div class="card-header">
+                    <h1>Liste des Patients</h1>
+                </div>
+                <div class="card-body"> 
+                    <form method="get" th:action="@{index}">
+                        <div> 
+                            <label>
+                                Mot cle
+                            </label>
+                            <input type="text" name="keyword" />
+                            <button class="btn btn-success" >Chercher</button>
+                        </div>
+                    </form>
+                    <table class="table">
+                        <tr>
+                        <th>ID</th><th>DATE</th><th>NAME</th><th>MALADE</th>
+                        </tr>
+                        <tr th:each="p:${patients}">
+                            <td th:text="${p.id}" ></td>
+                            <td th:text="${p.datNaisssance}" ></td>
+                            <td th:text="${p.name}" ></td>
+                            <td th:text="${p.malade}" ></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="btn btn-danger" onClick="return confirm('Etes vous sure de vouloire supprimer?')"
+                                   th:href="@{deletePatient(id=${p.id},keyword=${keyword},page=${pageActuel},size=${size})}">
+                                       Delete
+                                </a>
+                            </td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a class="btn btn-success   " th:href="@{updatePatient(id=${p.id})}" > Update</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <ul class="nav nav-pills">
+                        <li th:each="page,status:${pages}" >
+                            <a th:class="${status.index==pageActuel?'btn btn-primary':'btn'}" 
+                               th:href="@{index(page=${status.index},keyword=${keyword})}" th:text="${status.index}" > </a>
+                        </li>
+                    </ul>
+                  </div> 
+           </div> 
+        </div>
+       </div>  
+    </body>
+</html>

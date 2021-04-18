@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" 
+      >
+    <head>
+        <title>Patients</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
+        <script src="/webjars/jquery/3.4.1/jquery.min.js"> </script>
+        <script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"> </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+               
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{index}">Home</a>
+              </li>
+              
+              <!-- Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Patients
+                </a>
+                <div class="dropdown-menu">
+                  <a sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item" th:href="@{PatientForm}" >Ajouter</a>
+                  <a class="dropdown-item"th:href="@{index}">Search</a>
+                  
+                </div>
+              </li>
+            </ul>
+            <ul class="navbar-nav ">
+             <!-- Dropdown -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                    <span sec:authorize="isAnonymous()" >Sign In</span>
+                </a>
+                <div class="dropdown-menu">
+                    <a sec:authorize="isAuthenticated()" class="dropdown-item" th:href="@{logout}" >Logout</a>
+                    <a sec:authorize="isAnonymous()" class="dropdown-item" th:href="@{login}">Login</a>
+                  
+                </div>
+              </li>
+            </ul>
+        </nav>
+        <section layout:fragment="PageContent"> 
+        
+        </section>
+    </body>
+</html>
